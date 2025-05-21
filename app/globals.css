@@ -57,6 +57,10 @@
     .container-between {
       @apply flex justify-between items-center;
     }
+    .primary-gradient {
+      @apply text-transparent bg-clip-text;
+      background-image: var(--primary-gradient);
+    }
     .w-limit {
       width: 100%;
       max-width: 1536px;
@@ -94,6 +98,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --primary-gradient: linear-gradient(
+    58deg,
+    rgb(255, 255, 255) 31%,
+    rgb(149, 152, 174) 70%
+  );
 }
 
 .dark {
