@@ -32,7 +32,7 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
+  --color-primary: #9fa3bb;
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -41,9 +41,27 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-hover: #fff150;
+  --color-fade-gray: rgba(13, 13, 13, 0.5);
+  --color-fade-white: rgba(255, 255, 255, 0.16);
 }
 
 :root {
+  @layer utilities {
+    .container-center {
+      @apply flex justify-center items-center;
+    }
+    .container-center-v {
+      @apply flex justify-center items-center flex-col;
+    }
+    .container-between {
+      @apply flex justify-between items-center;
+    }
+    .w-limit {
+      width: 100%;
+      max-width: 1536px;
+    }
+  }
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
