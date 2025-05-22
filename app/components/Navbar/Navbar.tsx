@@ -12,7 +12,7 @@ const Navbar = () => {
         className={`flex items-center justify-between py-5 transition-all ease-linear duration-300 ${
           hasYOffset
             ? "w-[800px] border border-fade-white rounded-2xl px-5 shadow-lg backdrop-blur-sm max-lg:mx-5"
-            : "w-limit px-10"
+            : "w-limit mx-10"
         }`}
       >
         <Logo />

@@ -30,9 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-accent-foreground`}
       >
         <Navbar />
-        <main className="pt-32 pb-2 inset-0 m-auto p-0 w-full max-w-[1536px]">
-          {children}
-        </main>
+        <main className="pt-32 pb-2 container-center px-10">{children}</main>
         <Footer />
       </body>
     </html>
