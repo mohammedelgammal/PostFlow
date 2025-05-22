@@ -27,11 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-accent-foreground`}
       >
         <Navbar />
-        {/* TODO: remove the height and bg */}
-        <main className="h-[1500px] inset-0 m-auto w-full max-w-[1536px] bg-red-500">
+        <main className="pt-32 pb-2 inset-0 m-auto p-0 w-full max-w-[1536px]">
           {children}
         </main>
         <Footer />

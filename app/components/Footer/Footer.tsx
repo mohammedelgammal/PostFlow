@@ -3,7 +3,7 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <footer className="container-center bg-black">
-      <div className="w-[1100px] mx-10">
+      <div className="w-[1536px] mx-10">
         <div className="flex items-start justify-center flex-1 gap-14 pt-32 pb-20 max-md:flex-col max-md:pt-14">
           <div className="flex items-start justify-start gap-10 flex-col flex-1">
             <span className="primary-gradient text-3xl">

@@ -103,6 +103,8 @@
     rgb(255, 255, 255) 31%,
     rgb(149, 152, 174) 70%
   );
+  --gray-gradient: linear-gradient(58deg, #f5f5f7 31%, #8a8d9a 70%);
+  --hover-gradient: linear-gradient(58deg, #fff150 31%, #ffea00 70%);
 }
 
 .dark {

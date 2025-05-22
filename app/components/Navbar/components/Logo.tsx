@@ -4,8 +4,6 @@ import Image from "next/image";
 
 // memo prevents re-rendering due scroll state effect
 const Logo = memo(() => {
-  console.log("logo rendered!");
-
   return (
     <Link href="/" className="container-center select-none cursor-pointer">
       <div className="relative w-10 h-10">
