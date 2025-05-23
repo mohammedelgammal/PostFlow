@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 
 // memo prevents re-rendering due scroll state effect
-const Nav = memo(({ isVertical }: NavPropsType) => {
+const Nav = ({ isVertical }: NavPropsType) => {
   const pathName = usePathname();
   const navClassNames = isVertical
     ? "container-center flex-col gap-3 "
@@ -28,7 +28,7 @@ const Nav = memo(({ isVertical }: NavPropsType) => {
       </div>
     </nav>
   );
-});
+};
 
 const StyledLink = ({
   href,

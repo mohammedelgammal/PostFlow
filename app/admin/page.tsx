@@ -130,15 +130,4 @@ const Admin = () => {
   );
 };
 
-interface Range {
-  index: number;
-  length: number;
-}
-
-interface TextChange {
-  ops: any[];
-  oldDelta: any;
-  source: string;
-}
-
 export default Admin;
