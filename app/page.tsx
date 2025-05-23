@@ -1,6 +1,12 @@
-import { PostCard } from "./components";
+"use client";
+
+import { PostCard, PostsLoader } from "./components";
+import { Error } from "./common/components";
+import { usePosts } from "./hooks/api/usePosts";
 
 const Home = () => {
+  const { data: posts, isLoading, error } = usePosts();
+
   return (
     <section className="container-center max-w-[1536px] flex-col gap-12">
       <div className="container-center flex-col gap-7">
@@ -15,18 +21,24 @@ const Home = () => {
           analyses, rich storytelling, and actionable takeaways
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-x-6 gap-y-4 max-lg:grid-cols-2 pb-10">
-        {Array.from({ length: 30 }).map((_, index) => {
-          return (
-            <PostCard
-              key={index}
-              id={1}
-              title="Mastering the Art of Team Collaboration"
-              body="ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit"
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <PostsLoader />
+      ) : error ? (
+        <Error error={error.message} />
+      ) : (
+        <div className="grid grid-cols-3 gap-x-6 gap-y-4 max-lg:grid-cols-2 max-md:grid-cols-1 pb-10">
+          {posts?.map((post, index) => {
+            return (
+              <PostCard
+                key={index}
+                id={post.id}
+                title={post.title}
+                body={post.body}
+              />
+            );
+          })}
+        </div>
+      )}
     </section>
   );
 };

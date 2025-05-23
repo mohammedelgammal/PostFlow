@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Providers } from "./providers";
 import { Footer, Navbar } from "./components";
 import "./globals.css";
 
@@ -30,7 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-accent-foreground`}
       >
         <Navbar />
-        <main className="pt-32 pb-2 container-center px-10">{children}</main>
+        <main className="pt-32 pb-2 container-center px-10">
+          <Providers>{children}</Providers>
+        </main>
         <Footer />
       </body>
     </html>
