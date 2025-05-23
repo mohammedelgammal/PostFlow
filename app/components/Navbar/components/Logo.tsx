@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 // memo prevents re-rendering due scroll state effect
-const Logo = memo(() => {
+const Logo = () => {
   return (
     <Link href="/" className="container-center select-none cursor-pointer">
       <div className="relative w-10 h-10">
@@ -16,6 +16,6 @@ const Logo = memo(() => {
       </div>
     </Link>
   );
-});
+};
 
-export default Logo;
+export default memo(Logo);

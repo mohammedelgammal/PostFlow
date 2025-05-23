@@ -5,7 +5,7 @@ import Image from "next/image";
 import Nav from "./Nav";
 
 // memo prevents re-rendering due scroll state effect
-const Menu = memo(() => {
+const Menu = () => {
   const [isOpen, setOpen] = useState<boolean>(false);
 
   return (
@@ -39,6 +39,6 @@ const Menu = memo(() => {
       )}
     </div>
   );
-});
+};
 
-export default Menu;
+export default memo(Menu);

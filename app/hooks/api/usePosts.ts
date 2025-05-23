@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { fetchPost, fetchPosts } from "@/lib/api/posts";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createPost, fetchPost, fetchPosts } from "@/lib/api/posts";
 
 const usePosts = () =>
   useQuery({
@@ -15,4 +15,16 @@ const usePost = (id: string) =>
     staleTime: 1000 * 60 * 20,
   });
 
-export { usePosts, usePost };
+const useCreatePost = (title: string, body: string, successFn: () => void) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () => createPost({ title, body }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      successFn();
+    },
+  });
+};
+
+export { usePosts, usePost, useCreatePost };

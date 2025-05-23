@@ -70,4 +70,4 @@ type NavPropsType = {
   isVertical: boolean;
 };
 
-export default Nav;
+export default memo(Nav);
