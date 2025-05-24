@@ -1,130 +1,124 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import TipTap, { TipTapHandle } from "./components/TipTap";
+import { useCreatePost } from "@/hooks/api/usePosts";
 import {
   Card,
-  CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useCreatePost } from "@/hooks/api/usePosts";
-import { Post } from "@/lib/api/posts";
+import { useRef } from "react";
 
 const Admin = () => {
-  const [body, setBody] = useState<string>("");
-  const [title, setTitle] = useState<string>("");
-  const [formErrors, setFormErrors] = useState<Omit<Post, "id">>({
-    title: "",
-    body: "",
+  const tipTapRef = useRef<TipTapHandle>(null);
+  const formSchema = z.object({
+    title: z
+      .string()
+      .min(5, "Title must be at least 5 characters")
+      .max(100, "Title can't be more than 100 characters")
+      .trim(),
+    body: z
+      .string()
+      .min(20, "Body must be at least 20 characters")
+      .max(1000, "Body can't be more than 1000 characters")
+      .trim(),
   });
 
-  const clearFormData = () => {
-    setTitle("");
-    setBody("");
-  };
-
-  const { mutate, error, isPending } = useCreatePost(
-    title,
-    body,
-    clearFormData
-  );
-
-  const handleCreatePost = (e: FormEvent) => {
-    e.preventDefault();
-    if (validateForm()) mutate();
-  };
-
-  const validateForm = (): boolean => {
-    let isFormValid = true;
-    const currentFormErrors = {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    mode: "onChange",
+    defaultValues: {
       title: "",
       body: "",
-    };
+    },
+  });
 
-    if (title.trim().length < 5) {
-      currentFormErrors.title = "Title must be at least 5 characters";
-      isFormValid = false;
-    }
-    if (body.trim().length < 20) {
-      currentFormErrors.body = "Content must be at least 20 characters";
-      isFormValid = false;
-    }
+  const { mutate, isPending } = useCreatePost(
+    () => (form.reset(), tipTapRef.current?.clear())
+  );
 
-    setFormErrors(currentFormErrors);
-    return isFormValid;
+  const formSubmitHandler = (values: z.infer<typeof formSchema>) => {
+    mutate({ title: values.title, body: values.body });
   };
 
   return (
-    <section className="w-full">
-      <div className="container-center gap-20">
-        <h1 className="primary-gradient text-4xl">
-          Engage Your Mind. Write Something Brilliant
+    <section className="w-full max-w-[1536px]">
+      <div className="container-center gap-20 max-lg:flex-col">
+        <h1 className="primary-gradient text-4xl max-lg:text-center">
+          Engage Your Mind. <br className="lg:hidden " /> Write Something
+          Brilliant
         </h1>
-        <form className="w-full" onSubmit={handleCreatePost}>
-          <Card className="relative bg-[linear-gradient(132deg,#191b1e_0%,rgb(39,40,48)_100%)] border-none before:content-[''] before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-[calc(100%+2px)] before:h-[calc(100%+2px)] before:rounded-2xl before:bg-linear-to-br before:from-gray-50 before:to-gray-800 before:-z-10">
-            <CardHeader>
-              <CardTitle className="primary-gradient text-2xl">
-                Create a New Post
-              </CardTitle>
-              <CardDescription>
-                This Space is Yours. Light It Up.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label className="primary-gradient text-sm" htmlFor="name">
-                    Title
-                  </Label>
-                  <Input
-                    id="name"
-                    placeholder="Title of your post"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    className="text-gray-100"
-                  />
-                  <span className="text-red-400 h-[25px]">
-                    {formErrors.title}
-                  </span>
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Label className="primary-gradient text-sm">Body</Label>
-                  <span className="text-red-400 h-[25px]">
-                    {formErrors.body}
-                  </span>
-                </div>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <div className="container-center space-y-5 w-full">
-                {error ? (
-                  <span className="text-red-400">
-                    Error occurred while submitting the form please try again{" "}
-                    <br /> {error.message}
-                  </span>
-                ) : (
-                  ""
+        <Card className="w-full relative bg-[linear-gradient(132deg,#191b1e_0%,rgb(39,40,48)_100%)] border-none before:content-[''] before:absolute before:left-1/2 before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:w-[calc(100%+2px)] before:h-[calc(100%+2px)] before:rounded-2xl before:bg-linear-to-br before:from-gray-50 before:to-gray-800 before:-z-10">
+          <CardHeader>
+            <CardTitle className="primary-gradient text-2xl">
+              Create a New Post
+            </CardTitle>
+            <CardDescription>This Space is Yours. Light It Up.</CardDescription>
+          </CardHeader>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(formSubmitHandler)}
+              className="px-5"
+            >
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        className="text-white"
+                        type="text"
+                        placeholder="Post title"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
                 )}
-                <div className="container-center w-full">
-                  <Button type="submit" className="cursor-pointer w-1/2">
-                    {isPending ? (
-                      <div className="w-[20px] h-[20px] border-2 border-gray-600 border-t-transparent rounded-full animate-spin"></div>
-                    ) : (
-                      <span>
-                        <span className="text-lg">+ </span>Create Post
-                      </span>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </CardFooter>
-          </Card>
-        </form>
+              />
+              <FormField
+                control={form.control}
+                name="body"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl className="w-full">
+                      <TipTap
+                        ref={tipTapRef}
+                        description={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormDescription />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={isPending}
+                className="block w-1/3 inset-0 m-auto cursor-pointer mt-4"
+              >
+                {isPending ? "Submitting..." : "Submit"}
+              </Button>
+            </form>
+          </Form>
+        </Card>
       </div>
     </section>
   );

@@ -69,7 +69,12 @@
       width: 100%;
       max-width: 1536px;
     }
+    .tiptap p.is-empty:first-child::before {
+      @apply text-muted-foreground float-left text-sm translate-y-0.5 h-0 pointer-events-none;
+      content: attr(data-placeholder);
+    }
   }
+
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

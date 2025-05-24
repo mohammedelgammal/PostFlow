@@ -15,11 +15,12 @@ const usePost = (id: string) =>
     staleTime: 1000 * 60 * 20,
   });
 
-const useCreatePost = (title: string, body: string, successFn: () => void) => {
+const useCreatePost = (successFn: () => void) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => createPost({ title, body }),
+    mutationFn: (data: { title: string; body: string }) =>
+      createPost({ title: data.title, body: data.body }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       successFn();
