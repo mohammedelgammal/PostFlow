@@ -1,4 +1,4 @@
-import { forwardRef, Ref, useImperativeHandle } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
@@ -50,5 +50,7 @@ type TipTapPropsType = {
 export type TipTapHandle = {
   clear: () => void;
 };
+
+TipTap.displayName = "TipTap";
 
 export default TipTap;
